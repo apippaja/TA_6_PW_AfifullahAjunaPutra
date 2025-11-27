@@ -478,15 +478,12 @@
                 <div class="loading-text">Memuat prakiraan cuaca...</div>
             </div>
             <div class="forecast-cards hidden">
-                <!-- Forecast cards will be generated here -->
             </div>
         </div>
     </div>
 
     <script>
-        // Data kota untuk autocomplete - FOKUS INDONESIA
         const cities = [
-            // Kota-kota besar Indonesia
             "Jakarta, Indonesia",
             "Surabaya, Indonesia",
             "Bandung, Indonesia",
@@ -506,8 +503,6 @@
             "Tangerang, Indonesia",
             "Depok, Indonesia",
             "Bogor, Indonesia",
-            
-            // Ibukota provinsi lainnya
             "Pekanbaru, Indonesia",
             "Bandar Lampung, Indonesia",
             "Pontianak, Indonesia",
@@ -527,8 +522,6 @@
             "Mamuju, Indonesia",
             "Tanjung Pinang, Indonesia",
             "Serang, Indonesia",
-            
-            // Kota wisata populer
             "Batu, Indonesia",
             "Solo, Indonesia",
             "Magelang, Indonesia",
@@ -539,15 +532,11 @@
             "Wakatobi, Indonesia",
             "Bunaken, Indonesia",
             "Toba, Indonesia",
-            
-            // Kota tetangga
             "Singapore, Singapore",
             "Kuala Lumpur, Malaysia",
             "Bangkok, Thailand",
             "Manila, Philippines"
         ];
-
-        // State aplikasi
         const state = {
             isCelsius: true,
             isDarkTheme: false,
@@ -555,8 +544,6 @@
             currentCity: "Jakarta, Indonesia",
             lastUpdated: null
         };
-
-        // DOM Elements
         const elements = {
             themeToggle: document.querySelector('.theme-toggle'),
             unitToggle: document.querySelector('.unit-toggle'),
@@ -573,18 +560,14 @@
             forecastCards: document.querySelector('.forecast-cards'),
             updateTime: document.querySelector('.update-time')
         };
-
-        // Inisialisasi aplikasi
         function initApp() {
             loadWeatherData();
             renderFavorites();
             setupEventListeners();
-            
-            // Auto-refresh setiap 5 menit
+     
             setInterval(refreshData, 5 * 60 * 1000);
         }
 
-        // Setup event listeners
         function setupEventListeners() {
             elements.themeToggle.addEventListener('click', toggleTheme);
             elements.unitToggle.addEventListener('click', toggleUnit);
@@ -594,31 +577,26 @@
             document.addEventListener('click', hideSuggestions);
         }
 
-        // Toggle tema gelap/terang
         function toggleTheme() {
             state.isDarkTheme = !state.isDarkTheme;
             document.body.classList.toggle('dark-theme', state.isDarkTheme);
             elements.themeToggle.innerHTML = state.isDarkTheme ? 
                 '<i class="fas fa-sun"></i>' : 
                 '<i class="fas fa-moon"></i>';
-                
-            // Simpan preferensi tema
+        
             localStorage.setItem('weatherTheme', state.isDarkTheme ? 'dark' : 'light');
         }
 
-        // Toggle satuan suhu
         function toggleUnit() {
             state.isCelsius = !state.isCelsius;
             elements.unitToggle.innerHTML = state.isCelsius ? 
                 '<i class="fas fa-temperature-low"></i>' : 
                 '<i class="fas fa-temperature-high"></i>';
             loadWeatherData();
-            
-            // Simpan preferensi unit
+       
             localStorage.setItem('weatherUnit', state.isCelsius ? 'celsius' : 'fahrenheit');
         }
 
-        // Refresh data cuaca
         function refreshData() {
             elements.refreshBtn.classList.add('fa-spin');
             loadWeatherData();
@@ -627,7 +605,7 @@
             }, 1000);
         }
 
-        // Handle input pencarian
+    
         function handleSearchInput(e) {
             const query = e.target.value.toLowerCase();
             if (query.length > 0) {
@@ -640,7 +618,7 @@
             }
         }
 
-        // Tampilkan saran pencarian
+
         function showSuggestions(filteredCities = null) {
             if (filteredCities) {
                 elements.suggestions.innerHTML = '';
@@ -665,13 +643,13 @@
             }
         }
 
-        // Sembunyikan saran pencarian
+    
         function hideSuggestions(e) {
             if (e && e.target === elements.searchBox) return;
             elements.suggestions.style.display = 'none';
         }
 
-        // Pilih kota dari saran
+        
         function selectCity(city) {
             state.currentCity = city;
             elements.searchBox.value = city;
@@ -679,7 +657,6 @@
             loadWeatherData();
         }
 
-        // Render daftar kota favorit
         function renderFavorites() {
             elements.favoritesContainer.innerHTML = '';
             state.favorites.forEach(city => {
@@ -690,7 +667,6 @@
                 elements.favoritesContainer.appendChild(btn);
             });
 
-            // Tombol tambah favorit
             if (!state.favorites.includes(state.currentCity)) {
                 const addBtn = document.createElement('button');
                 addBtn.className = 'favorite-btn';
@@ -700,7 +676,6 @@
             }
         }
 
-        // Tambah kota ke favorit
         function addToFavorites() {
             const city = state.currentCity;
             if (!state.favorites.includes(city)) {
@@ -710,33 +685,27 @@
             }
         }
 
-        // Load data cuaca
         async function loadWeatherData() {
-            // Tampilkan loading
+            
             showLoading();
             hideError();
             
             try {
-                // Untuk demo, kita akan menggunakan data simulasi
+                
                 const weatherData = await fetchWeatherData(state.currentCity);
-                
-                // Update data cuaca saat ini
+            
                 updateCurrentWeather(weatherData.current);
-                
-                // Update prakiraan cuaca
+           
                 updateForecast(weatherData.forecast);
                 
-                // Update waktu terakhir diperbarui
                 updateLastUpdated();
                 
-                // Sembunyikan loading
                 hideLoading();
                 
             } catch (error) {
                 console.error('Error fetching weather data:', error);
                 showError('Gagal memuat data cuaca. Menggunakan data demo.');
-                
-                // Gunakan data demo sebagai fallback
+              
                 const demoData = generateDemoData(state.currentCity);
                 updateCurrentWeather(demoData.current);
                 updateForecast(demoData.forecast);
@@ -744,31 +713,30 @@
                 hideLoading();
             }
             
-            // Update daftar favorit
+        
             renderFavorites();
         }
 
-        // Fetch data cuaca (simulasi untuk demo)
         async function fetchWeatherData(city) {
-            // Simulasi delay jaringan
+          
             await new Promise(resolve => setTimeout(resolve, 1000));
             
-            // Generate data berdasarkan nama kota untuk variasi
+       
             return generateDemoData(city);
         }
 
-        // Generate data demo berdasarkan nama kota
+        
         function generateDemoData(city) {
-            // Buat data yang sedikit berbeda berdasarkan nama kota untuk simulasi
+            
             const cityHash = city.split('').reduce((a, b) => {
                 a = ((a << 5) - a) + b.charCodeAt(0);
                 return a & a;
             }, 0);
             
-            // Data cuaca yang lebih realistis untuk Indonesia
-            const baseTemp = 25 + (cityHash % 8); // 25-33°C untuk Indonesia
-            const baseHumidity = 60 + (cityHash % 25); // 60-85% untuk Indonesia
-            const baseWind = 3 + (cityHash % 12); // 3-15 km/h
+         
+            const baseTemp = 25 + (cityHash % 8); 
+            const baseHumidity = 60 + (cityHash % 25); 
+            const baseWind = 3 + (cityHash % 12); 
             
             const current = {
                 location: city,
@@ -778,8 +746,8 @@
                 icon: getWeatherIcon(getRandomCondition(cityHash)),
                 humidity: baseHumidity,
                 windSpeed: baseWind,
-                pressure: 1005 + (cityHash % 15), // 1005-1020 hPa
-                visibility: 8 + (cityHash % 7) // 8-15 km
+                pressure: 1005 + (cityHash % 15), 
+                visibility: 8 + (cityHash % 7) 
             };
             
             const forecast = [];
@@ -806,7 +774,7 @@
             return { current, forecast };
         }
 
-        // Helper functions untuk data cuaca
+        
         function getRandomCondition(hash) {
             const conditions = [
                 "Cerah", "Cerah Berawan", "Berawan", "Hujan Ringan", 
@@ -851,7 +819,7 @@
             return date.toLocaleDateString('id-ID', options);
         }
 
-        // Update tampilan cuaca saat ini
+      
         function updateCurrentWeather(data) {
             const temp = state.isCelsius ? 
                 `${Math.round(data.temperature)}°C` : 
@@ -876,7 +844,7 @@
             elements.currentContent.querySelector('.visibility').textContent = visibility;
         }
 
-        // Update tampilan prakiraan cuaca
+       
         function updateForecast(forecastData) {
             elements.forecastCards.innerHTML = '';
             forecastData.forEach(day => {
@@ -902,13 +870,13 @@
             });
         }
 
-        // Update waktu terakhir diperbarui
+        
         function updateLastUpdated() {
             state.lastUpdated = new Date();
             elements.updateTime.textContent = formatTime(state.lastUpdated);
         }
 
-        // Tampilkan loading
+     
         function showLoading() {
             elements.currentLoading.classList.remove('hidden');
             elements.currentContent.classList.add('hidden');
@@ -916,7 +884,7 @@
             elements.forecastCards.classList.add('hidden');
         }
 
-        // Sembunyikan loading
+     
         function hideLoading() {
             elements.currentLoading.classList.add('hidden');
             elements.currentContent.classList.remove('hidden');
@@ -924,18 +892,16 @@
             elements.forecastCards.classList.remove('hidden');
         }
 
-        // Tampilkan pesan error
         function showError(message) {
             elements.errorMessage.textContent = message;
             elements.errorMessage.style.display = 'block';
         }
 
-        // Sembunyikan pesan error
+       
         function hideError() {
             elements.errorMessage.style.display = 'none';
         }
 
-        // Helper functions konversi
         function celsiusToFahrenheit(celsius) {
             return Math.round((celsius * 9/5) + 32);
         }
@@ -944,7 +910,6 @@
             return Math.round(km * 0.621371);
         }
 
-        // Load preferensi yang disimpan
         function loadPreferences() {
             const savedTheme = localStorage.getItem('weatherTheme');
             const savedUnit = localStorage.getItem('weatherUnit');
@@ -961,11 +926,11 @@
             }
         }
 
-        // Inisialisasi aplikasi saat halaman dimuat
         window.addEventListener('DOMContentLoaded', () => {
             loadPreferences();
             initApp();
         });
     </script>
 </body>
+
 </html>
