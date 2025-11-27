@@ -6,6 +6,7 @@ Weather Dashboard
 Weather Dashboard adalah aplikasi web responsif yang menyediakan informasi cuaca real-time dan prakiraan 5 hari ke depan untuk berbagai kota, dengan fokus utama pada kota-kota di Indonesia. Aplikasi ini dirancang dengan antarmuka yang user-friendly dan dilengkapi dengan berbagai fitur interaktif untuk pengalaman pengguna yang optimal.
 
 
+
 ⚡ Fitur Utama
 - Cuaca Saat Ini - Temperatur, kelembaban, kecepatan angin, tekanan, visibilitas
 
@@ -22,6 +23,7 @@ Weather Dashboard adalah aplikasi web responsif yang menyediakan informasi cuaca
 - Auto-update - Refresh otomatis setiap 5 menit
 
 
+
 🛠️ Teknologi
 
 - HTML5, CSS3, JavaScript
@@ -31,6 +33,7 @@ Weather Dashboard adalah aplikasi web responsif yang menyediakan informasi cuaca
 - Local Storage untuk penyimpanan data
 
 - Responsive design untuk semua device
+
 
 
 🎯 Kelebihan
@@ -43,6 +46,4 @@ Weather Dashboard adalah aplikasi web responsif yang menyediakan informasi cuaca
 
 - Mendukung 40+ kota di seluruh Indonesia
 
-Cepat, ringan, dan bisa bekerja offline
 
-Mendukung 40+ kota di seluruh Indonesia
